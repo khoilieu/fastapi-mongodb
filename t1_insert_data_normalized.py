@@ -3,24 +3,19 @@ from bson import ObjectId
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
-# Load biến môi trường
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 
-# Kết nối MongoDB
 client = MongoClient(MONGO_URI)
 db = client.education_website
 
-# Dữ liệu chuẩn hóa (Normalized Data)
 def insert_data():
-    # 1. Subject Collection
     subject = {
         "_id": ObjectId(),
         "name": "Mathematics"
     }
     subject_id = db.subject.insert_one(subject).inserted_id
 
-    # 2. User Collection
     users = [
         {
             "_id": ObjectId(),
@@ -39,16 +34,14 @@ def insert_data():
     ]
     user_ids = [db.user.insert_one(user).inserted_id for user in users]
 
-    # 3. Classroom Collection
     classroom = {
         "_id": ObjectId(),
         "name": "Class 1A",
-        "teacher_id": user_ids[0],  # Giáo viên của lớp học
+        "teacher_id": user_ids[0], 
         "subject_id": subject_id
     }
     classroom_id = db.classroom.insert_one(classroom).inserted_id
 
-    # 4. Section Collection
     section = {
         "_id": ObjectId(),
         "title": "Section 1: Algebra",
@@ -57,7 +50,6 @@ def insert_data():
     }
     section_id = db.section.insert_one(section).inserted_id
 
-    # 5. SectionFile Collection
     section_file = {
         "_id": ObjectId(),
         "file_name": "algebra_notes.pdf",
@@ -66,7 +58,6 @@ def insert_data():
     }
     db.sectionFile.insert_one(section_file)
 
-    # 6. Submission Collection
     submission = {
         "_id": ObjectId(),
         "title": "Algebra Assignment 1",
@@ -75,7 +66,6 @@ def insert_data():
     }
     submission_id = db.submission.insert_one(submission).inserted_id
 
-    # 7. SubmissionFile Collection
     submission_file = {
         "_id": ObjectId(),
         "file_name": "algebra_assignment.pdf",
@@ -84,15 +74,13 @@ def insert_data():
     }
     db.submissionFile.insert_one(submission_file)
 
-    # 8. Participant Collection
     participant = {
         "_id": ObjectId(),
         "classroom_id": classroom_id,
-        "user_id": user_ids[1]  # Student tham gia lớp học
+        "user_id": user_ids[1] 
     }
     db.participant.insert_one(participant)
 
-    # 9. TestQuestion Collection
     test_question = {
         "_id": ObjectId(),
         "title": "Math Test - Algebra Basics",
@@ -100,7 +88,6 @@ def insert_data():
     }
     test_question_id = db.testQuestion.insert_one(test_question).inserted_id
 
-    # 10. Question Collection
     questions = [
         {
             "_id": ObjectId(),
@@ -115,7 +102,6 @@ def insert_data():
     ]
     question_ids = [db.question.insert_one(q).inserted_id for q in questions]
 
-    # 11. Answer Collection
     answers = [
         {
             "_id": ObjectId(),
@@ -132,22 +118,20 @@ def insert_data():
     ]
     db.answer.insert_many(answers)
 
-    # 12. ForumPost Collection (✅ **Cập nhật: thêm `user_id` cho bài đăng**)
     forum_post = {
         "_id": ObjectId(),
-        "user_id": user_ids[1],  # 🛠 Người post bài là học sinh
+        "user_id": user_ids[1],
         "title": "Discussion on Algebra",
         "content": "Let's discuss algebraic equations",
         "type": "discuss"
     }
     forum_post_id = db.forumPost.insert_one(forum_post).inserted_id
 
-    # 13. ForumComment Collection
     forum_comment = {
         "_id": ObjectId(),
         "content": "I think algebra is fun!",
         "forumPost_id": forum_post_id,
-        "user_id": user_ids[1]  # Học sinh bình luận
+        "user_id": user_ids[1] 
     }
     db.forumComment.insert_one(forum_comment)
 

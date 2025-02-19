@@ -3,17 +3,13 @@ from bson import ObjectId
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
-# Load biến môi trường
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 
-# Kết nối MongoDB
 client = MongoClient(MONGO_URI)
 db = client.education_website
 
-# Dữ liệu phi chuẩn hóa (Denormalized Data)
 def insert_data():
-    # 1. Thêm lớp học với thông tin môn học, giáo viên và học sinh
     classroom = {
         "_id": ObjectId(),
         "name": "Class 2B",
@@ -115,13 +111,13 @@ def insert_data():
         "forum_posts": [
             {
                 "_id": ObjectId(),
-                "user_id": ObjectId(),  # ID của học sinh
+                "user_id": ObjectId(), 
                 "title": "Discussion on Chemistry",
                 "content": "Let's discuss chemical reactions",
                 "comments": [
                     {
                         "_id": ObjectId(),
-                        "user_id": ObjectId(),  # ID của học sinh
+                        "user_id": ObjectId(),
                         "content": "I think chemistry is fascinating!"
                     }
                 ]
@@ -129,7 +125,6 @@ def insert_data():
         ]
     }
 
-    # Chèn tài liệu vào bộ sưu tập `classroom`
     db.classroom.insert_one(classroom)
 
 if __name__ == "__main__":

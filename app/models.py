@@ -1,29 +1,26 @@
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 
-# ✅ 1. User Model
 class User(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")
     username: str
     email: EmailStr
     password: str
-    role: str  # student | teacher | admin
+    role: str  
     disabled: Optional[bool] = False
 
     class Config:
         populate_by_name = True
 
-# ✅ 2. Classroom Model
 class Classroom(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")
     name: str
-    teacher_id: str  # Liên kết với giáo viên
-    subject_id: str  # Liên kết với môn học
+    teacher_id: str 
+    subject_id: str 
 
     class Config:
         populate_by_name = True
 
-# ✅ 3. Subject Model
 class Subject(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")
     name: str
@@ -32,51 +29,45 @@ class Subject(BaseModel):
     class Config:
         populate_by_name = True
 
-# ✅ 4. Section Model
 class Section(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")
     title: str
     description: str
-    classroom_id: str  # Liên kết với lớp học
-
+    classroom_id: str 
     class Config:
         populate_by_name = True
 
-# ✅ 5. SectionFile Model
 class SectionFile(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")
     file_name: str
     file_url: str
-    section_id: str  # Liên kết với chương học
+    section_id: str  
 
     class Config:
         populate_by_name = True
 
-# ✅ 6. Submission Model
 class Submission(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")
     title: str
     description: str
-    classroom_id: str  # Liên kết với lớp học
+    classroom_id: str  
 
     class Config:
         populate_by_name = True
 
-# ✅ 7. SubmissionFile Model
 class SubmissionFile(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")
     file_name: str
     file_url: str
-    submission_id: str  # Liên kết với bài nộp
+    submission_id: str 
 
     class Config:
         populate_by_name = True
 
-# ✅ 8. Participant Model
 class Participant(BaseModel):
     id: Optional[str] = Field(default=None, alias="_id")
-    classroom_id: str  # Liên kết với lớp học
-    user_id: str  # Liên kết với người tham gia (học sinh/giáo viên)
+    classroom_id: str 
+    user_id: str 
 
     class Config:
         populate_by_name = True
