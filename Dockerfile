@@ -1,11 +1,11 @@
-FROM python:3.9
+FROM python:3.10-slim
 
 WORKDIR /code
 
-COPY ./requirements.txt /code/requirements.txt
+COPY requirements.txt .
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./main.py /code/
+COPY . .
 
-CMD ["fastapi", "run", "main.py", "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
