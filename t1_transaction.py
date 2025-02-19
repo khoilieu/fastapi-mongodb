@@ -11,7 +11,6 @@ client = MongoClient(MONGO_URI)
 db = client.education_website
 
 def run_transaction():
-    """Thực hiện transaction để insert dữ liệu vào nhiều collection trong MongoDB."""
     with client.start_session() as session:
         with session.start_transaction():
             try:
